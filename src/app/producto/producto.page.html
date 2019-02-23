@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home"></ion-back-button>
+    </ion-buttons>
+    <ion-title text-center>
+      Producto
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="verCarrito()">
+        <ion-badge color="primary">{{carritoService.productos.length}}</ion-badge>
+        <ion-icon slot="icon-only" name="cart" text-left></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" size-md="6" size-lg="4">
+        <ion-card>
+          <ion-card-header>
+            <ion-ripple-effect></ion-ripple-effect>
+            <!--<ion-item>-->
+            <ion-img src="../../assets/img/foto2.JPG"></ion-img>
+            <!--</ion-item>-->
+            <ion-card-title>{{MaysPrimera(producto.nombre)}}</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            {{MaysPrimera(producto.descripcion)}}
+          </ion-card-content>
+
+          <ion-item>
+            <ion-icon name="card"></ion-icon>
+            <ion-label>Precio: {{producto.precio}} $</ion-label>
+            <!--<ion-button  color="primary">Ver Producto</ion-button>-->
+          </ion-item>
+          <!--<ion-buttons slot="end">-->
+          <!--<ion-button shape="round" color="primary">Round Button</ion-button>-->
+          <!--</ion-buttons>-->
+
+        </ion-card>
+
+          <ion-button (click)="addCarrito()" [color]="'primary'" [size]="'large'" [expand]="'full'" [fill]="'clear'">Añadir al carrito</ion-button>
+          <ion-button (click)="irAlCarrito()" [color]="'primary'" [size]="'large'" [expand]="'full'" [fill]="'clear'">Ir al carrito</ion-button>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

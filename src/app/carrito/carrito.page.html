@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Carrito de Compra</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+    <div *ngIf="carritoService.productos.length <= 0">
+        <h2>No hay productos en el carrito</h2>
+    </div>
+
+    <div *ngIf="carritoService.productos.length !== 0">
+        <ion-text color="dark" text-center>
+            <h1>Total de Productos: {{ carritoService.productos.length }}</h1>
+        </ion-text>
+    </div>
+
+    <div *ngIf="carritoService.productos.length !== 0">
+        <ion-item *ngFor="let producto of carritoService.productos">
+            <ion-label>
+                <h2>{{ MaysPrimera(producto.nombre)}}</h2>
+                <ion-note>
+                    <b>Precio: {{producto.precio}}$</b>
+                </ion-note>
+            </ion-label>
+            <ion-thumbnail slot="start">
+                <ion-img src="../../assets/img/foto2.JPG"></ion-img>
+            </ion-thumbnail>
+            <ion-button [fill]="'clear'" (click)="borrarProducto(producto)">
+                <ion-icon slot="icon-only" name="close-circle-outline" [size]="'default'"></ion-icon>
+            </ion-button>
+
+        </ion-item>
+    </div>
+
+    <div>
+        <ion-text color="dark" text-end>
+            <h1>Total: {{ carritoService.total_carrito }}$us</h1>
+        </ion-text>
+    </div>
+
+    <div>
+        <ion-button color="primary" expand="full" shape="round">
+            <ion-icon slot="start" name="card"></ion-icon>
+            Pagar con PayPal
+        </ion-button>
+    </div>
+
+
+</ion-content>

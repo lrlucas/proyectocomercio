@@ -14,7 +14,9 @@ const routes: Routes = [
   {
     path: 'list',
     loadChildren: './list/list.module#ListPageModule'
-  }
+  },
+  { path: 'producto/:id', loadChildren: './producto/producto.module#ProductoPageModule' },
+  { path: 'carrito', loadChildren: './carrito/carrito.module#CarritoPageModule' }
 ];
 
 @NgModule({

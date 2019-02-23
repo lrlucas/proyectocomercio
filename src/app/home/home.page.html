@@ -6,39 +6,49 @@
     <ion-title>
       Home
     </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="verCarrito()">
+        <ion-badge color="primary" class="carrito">{{ carritoService.productos.length }}</ion-badge>
+        <ion-icon slot="icon-only" name="cart" text-left></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <ion-card class="welcome-card">
-      <ion-img src="/assets/shapes.svg"></ion-img>
-      <ion-card-header>
-        <ion-card-subtitle>Get Started</ion-card-subtitle>
-        <ion-card-title>Welcome to Ionic</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <p>Now that your app has been created, you'll want to start building out features and components. Check out some of the resources below for next steps.</p>
-      </ion-card-content>
-    </ion-card>
-    <ion-list lines="none">
-      <ion-list-header>
-        <ion-label>Resources</ion-label>
-      </ion-list-header>
-      <ion-item href="https://ionicframework.com/docs/">
-        <ion-icon slot="start" color="medium" name="book"></ion-icon>
-        <ion-label>Ionic Documentation</ion-label>
-      </ion-item>
-      <ion-item href="https://ionicframework.com/docs/building/scaffolding">
-        <ion-icon slot="start" color="medium" name="build"></ion-icon>
-        <ion-label>Scaffold Out Your App</ion-label>
-      </ion-item>
-      <ion-item href="https://ionicframework.com/docs/layout/structure">
-        <ion-icon slot="start" color="medium" name="grid"></ion-icon>
-        <ion-label>Change Your App Layout</ion-label>
-      </ion-item>
-      <ion-item href="https://ionicframework.com/docs/theming/basics">
-        <ion-icon slot="start" color="medium" name="color-fill"></ion-icon>
-        <ion-label>Theme Your App</ion-label>
-      </ion-item>
-    </ion-list>
+  <div *ngIf="productoService.connect === false">
+    <h1>NO se puede conectar al servidor</h1>
+  </div>
+  <ion-grid *ngIf="productoService.connect === true">
+    <ion-text color="dark" text-center>
+      <h1>Total de Productos: {{ productos.length }}</h1>
+    </ion-text>
+    <ion-row>
+      <ion-col size="12" size-md="6" size-lg="4" *ngFor="let producto of productos">
+        <ion-card>
+          <ion-card-header>
+            <ion-ripple-effect></ion-ripple-effect>
+            <!--<ion-item>-->
+              <ion-img (click)="verImagen(producto.idProducto)" src="../../assets/img/foto2.JPG"></ion-img>
+            <!--</ion-item>-->
+            <ion-card-title>{{ MaysPrimera(producto.nombre)}}</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+           {{producto.descripcion}}
+          </ion-card-content>
+
+          <ion-item>
+            <ion-icon name="card"></ion-icon>
+            <ion-label>Precio: {{producto.precio}} $us</ion-label>
+            <!--<ion-button  color="primary">Ver Producto</ion-button>-->
+          </ion-item>
+          <!--<ion-buttons slot="end">-->
+            <!--<ion-button shape="round" color="primary">Round Button</ion-button>-->
+          <!--</ion-buttons>-->
+
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
