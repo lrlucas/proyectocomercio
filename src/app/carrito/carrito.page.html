@@ -44,9 +44,11 @@
     </div>
 
     <div>
-        <ion-button color="primary" expand="full" shape="round">
-            <ion-icon slot="start" name="card"></ion-icon>
-            Pagar con PayPal
+        <ion-button (click)="comprar()" [color]="'warning'" [style.color]="'blue'" expand="full" shape="round" [disabled]="!botonPaypal">
+            <ion-icon slot="start" name="card" [color]="'primary'"></ion-icon>
+            <ion-text [color]="'primary'">
+                <b>Pagar con PayPal</b>
+            </ion-text>
         </ion-button>
     </div>
 

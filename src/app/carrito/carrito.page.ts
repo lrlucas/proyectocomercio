@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {CarritoService} from '../services/carrito.service';
 import { PayPal, PayPalPayment, PayPalConfiguration } from '@ionic-native/paypal/ngx';
+import {NavController} from '@ionic/angular';
 
 @Component({
   selector: 'app-carrito',
@@ -13,15 +14,28 @@ export class CarritoPage implements OnInit {
     public Err: string = '';
     public Mensaje: any;
 
+    public botonPaypal = false;
+
   constructor(public carritoService: CarritoService,
-              private payPal: PayPal) { }
+              private payPal: PayPal,
+              public navCtrl: NavController) { }
 
   ngOnInit() {
       this.productos = this.carritoService.productos;
+      this.BotonPaypal();
+  }
+
+  public BotonPaypal() {
+      if (this.productos.length > 0) {
+          this.botonPaypal = true;
+      } else {
+          this.botonPaypal = false;
+      }
   }
 
   public borrarProducto(producto) {
       this.carritoService.removeCarrito(producto.idProducto);
+      this.BotonPaypal();
   }
 
 
@@ -40,11 +54,22 @@ export class CarritoPage implements OnInit {
                 // Only needed if you get an "Internal Service Error" after PayPal login!
                 // payPalShippingAddressOption: 2 // PayPalShippingAddressOptionPayPal
             })).then(() => {
-                const payment = new PayPalPayment('3.33', 'USD', 'Description', 'sale');
+                const payment = new PayPalPayment(
+                    this.carritoService.total_carrito.toString(),
+                    'USD',
+                    'Pago realizado correctamente - Proyecto de Comercio electronico',
+                    'sale');
                 this.payPal.renderSinglePaymentUI(payment).then((pago) => {
-                    console.log('pago');
-                    console.log(pago);
-                    this.Mensaje = pago;
+                    if (pago) {
+                        this.carritoService.MostrarToast('Pago Realizado correctamente');
+                        console.log('pago');
+                        console.log(pago);
+                        this.Mensaje = pago;
+                        this.carritoService.productos.length = 0;
+                        this.carritoService.precios.length = 0;
+                        this.carritoService.total_carrito = 0;
+                        this.navCtrl.navigateForward(`/home`);
+                    }
                     // Successfully paid
                     // Example sandbox response
                     //
@@ -66,16 +91,18 @@ export class CarritoPage implements OnInit {
                 }, (err) => {
                     console.log(err);
                     this.Err = err;
-                    // Error or render dialog closed without being successful
+                    this.carritoService.MostrarToast(err);
                 });
             }, (err) => {
                 console.log(err);
                 this.Err = err;
                 // Error in configuration
+                this.carritoService.MostrarToast(err);
             });
         }, (err) => {
             console.log(err);
             this.Err = err;
+            this.carritoService.MostrarToast(err);
             // Error in initialization, maybe PayPal isn't supported or something else
         });
     }

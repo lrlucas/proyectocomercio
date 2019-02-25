@@ -6,7 +6,8 @@ import {map} from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ProductoService {
-  private url: string = 'http://localhost:9091';
+  // private url: string = 'http://localhost:9091';
+  private url: string = 'http://192.168.0.12:9091';
   public connect = false;
 
   constructor(private http: HttpClient) { }

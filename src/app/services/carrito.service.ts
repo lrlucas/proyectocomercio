@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Storage } from '@ionic/storage';
+import {Injectable} from '@angular/core';
+import {Storage} from '@ionic/storage';
 import {ToastController} from '@ionic/angular';
 
 @Injectable({
@@ -53,8 +53,7 @@ export class CarritoService {
 
   public precioProductos() {
       const add = (a, b) => a + b;
-      const sum = this.precios.reduce(add)
-      this.total_carrito = sum;
+      this.total_carrito = this.precios.reduce(add, 0);
   }
 
   public removeCarrito(id: any) {
@@ -70,6 +69,14 @@ export class CarritoService {
 
   saveLocalStorageCarrito() {
       this.storage.set('productos', this.productos);
+  }
+
+  public async MostrarToast(mensaje: string) {
+      const toast = await this.toastController.create({
+          message: mensaje,
+          duration: 1800
+      });
+      toast.present();
   }
 
 }
